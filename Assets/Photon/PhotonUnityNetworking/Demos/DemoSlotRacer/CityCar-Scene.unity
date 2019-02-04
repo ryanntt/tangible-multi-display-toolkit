@@ -26781,7 +26781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
-  m_SynchronizeRotation: 0
+  m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
 --- !u!114 &1309512959
 MonoBehaviour:
@@ -26799,7 +26799,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 1309512958}
   viewIdField: 5
