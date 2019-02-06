@@ -7,6 +7,7 @@ TagManager:
   - PlayerCamera
   - CarPlayer
   - PedestrianPlayer
+  - Lights
   layers:
   - Default
   - TransparentFX
