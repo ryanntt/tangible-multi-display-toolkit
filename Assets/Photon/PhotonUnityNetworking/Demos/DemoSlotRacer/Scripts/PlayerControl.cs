@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PlayerControl.cs" company="Exit Games GmbH">
 //   Part of: Photon Unity Networking Demos
 // </copyright>
@@ -68,6 +68,9 @@ namespace Photon.Pun.Demo.SlotRacer
         /// </summary>
         private bool m_firstTake = true;
 
+        private GameObject mainCamera1;
+        private GameObject mainCamera2;
+        private GameObject pedestrianCamera;
 
         private float m_input;
 
@@ -114,6 +117,9 @@ namespace Photon.Pun.Demo.SlotRacer
         /// <param name="gridStartIndex">Grid start index.</param>
         private void SetupCarOnTrack(int gridStartIndex)
         {
+            mainCamera1 = GameObject.FindGameObjectsWithTag("TopView")[0];
+            mainCamera2 = GameObject.FindGameObjectsWithTag("TopView")[1];
+            pedestrianCamera = GameObject.FindGameObjectsWithTag("PlayerCamera")[0];
             // Setup the SplineWalker to be on the right starting grid position.
             //this.SplineWalker.spline = SlotLanes.Instance.GridPositions[gridStartIndex].Spline;
             //this.SplineWalker.currentDistance = SlotLanes.Instance.GridPositions[gridStartIndex].currentDistance;
@@ -122,54 +128,81 @@ namespace Photon.Pun.Demo.SlotRacer
             // create a new car
             //this.CarInstance = (GameObject) Instantiate(this.CarPrefabs[gridStartIndex], this.transform.position, this.transform.rotation);
 
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+            Debug.Log("Number of players in the room:" + PhotonNetwork.CurrentRoom.PlayerCount);
+
+            int playerOrder = this.photonView.Owner.GetPlayerNumber();
+
+            Debug.Log("The order of player:" + playerOrder);
+
+            if (playerOrder == 0 && this.photonView.IsMine)
             {
                 // instead of creating a new car, we just use the existing car
                 this.CarInstance = GameObject.FindGameObjectsWithTag("CarPlayer")[0];
-                Debug.Log(this.CarInstance.name);
+                //Debug.Log(this.CarInstance.name);
 
                 // Define the ownership of this object to be taken, meaning any player can request and take over its ownership
                 this.CarInstance.GetPhotonView().OwnershipTransfer = OwnershipOption.Takeover;
+                this.CarInstance.transform.SetParent(this.transform);
 
                 // Put main camera in the same parent with car object
                 //GameObject mainCamera = GameObject.FindGameObjectsWithTag("MainCamera")[0];
                 //mainCamera.transform.parent = this.CarInstance.transform;
                 //mainCamera.GetComponent<Camera>().enabled = true;
+
+                mainCamera1.transform.parent = this.transform;
+
+                // We'll wait for the first serializatin to pass, else we'll have a glitch where the car is positioned at the wrong position.
+                if (!this.photonView.IsMine)
+                {
+                    this.CarInstance.SetActive(false);
+                    this.GetComponentInChildren<Camera>().enabled = false;
+
+                }
+
             }
 
-            else if (PhotonNetwork.CurrentRoom.PlayerCount == 3) {
+            if (playerOrder == 1 && this.photonView.IsMine)
+            {
+                mainCamera2.transform.parent = this.transform;
+
+                mainCamera2.GetComponent<Camera>().enabled = true;
+                mainCamera2.GetComponent<Touchinput>().enabled = true;
+
+            }
+
+            if (playerOrder == 2 && this.photonView.IsMine) {
                 // instead of creating a new car, we just use the existing pedestrian
                 this.CarInstance = GameObject.FindGameObjectsWithTag("PedestrianPlayer")[0];
                 Debug.Log(this.CarInstance.name);
 
-                GameObject pedestrianCamera = GameObject.FindGameObjectsWithTag("PlayerCamera")[0];
                 //print(pedestrianCamera.name);
+                //pedestrianCamera.SetActive(true);
                 pedestrianCamera.transform.parent = this.CarInstance.transform;
                 pedestrianCamera.GetComponent<Camera>().enabled = true;
+
+                mainCamera1.GetComponent<Camera>().enabled = false;
+                mainCamera1.GetComponent<Touchinput>().enabled = false;
+
+                mainCamera2.GetComponent<Camera>().enabled = false;
+                mainCamera2.GetComponent<Touchinput>().enabled = false;
+
+                // We'll wait for the first serializatin to pass, else we'll have a glitch where the car is positioned at the wrong position.
+                if (!this.photonView.IsMine)
+                {
+                    this.CarInstance.SetActive(false);
+                    this.GetComponentInChildren<Camera>().enabled = false;
+
+                }
             }
 
 
-            // We'll wait for the first serializatin to pass, else we'll have a glitch where the car is positioned at the wrong position.
-            if (!this.photonView.IsMine)
-            {
-                this.CarInstance.SetActive(false);
 
-            }
-            else if (PhotonNetwork.CurrentRoom.PlayerCount == 3) 
-            {
-                GameObject pedestrianCamera = GameObject.FindGameObjectsWithTag("PlayerCamera")[0];
-                //print(pedestrianCamera.name);
-                pedestrianCamera.transform.parent = this.CarInstance.transform;
-                pedestrianCamera.GetComponent<Camera>().enabled = true;
-            }
 
             // depending on wether we control this instance locally, we force the car to become active ( because when you are alone in the room, serialization doesn't happen, but still we want to allow the user to race around)
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
             {
                 this.m_firstTake = false;
             }
-
-            this.CarInstance.transform.SetParent(this.transform);
 
         }
 

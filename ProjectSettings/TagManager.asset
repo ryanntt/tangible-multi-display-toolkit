@@ -8,6 +8,7 @@ TagManager:
   - CarPlayer
   - PedestrianPlayer
   - Lights
+  - TopView
   layers:
   - Default
   - TransparentFX
