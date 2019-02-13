@@ -18,7 +18,7 @@ public class Touchinput : MonoBehaviourPunCallbacks
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
 
             print("mouseclick");
@@ -71,7 +71,7 @@ public class Touchinput : MonoBehaviourPunCallbacks
                 }
             }
 
-        }
+        }*/
 
         if (Input.touches.Length > 2)
         {
@@ -112,16 +112,16 @@ public class Touchinput : MonoBehaviourPunCallbacks
             {
                 print(d);
 
-                if(d < DistanceObjectLong1 + 50 && d > DistanceObjectLong1 - 50 && !distance1Dec)
+                if(d < DistanceObjectLong1 + 75 && d > DistanceObjectLong1 - 75 && !distance1Dec)
                 {
                     distance1Dec = true;
                     distanceObjectLong1 = d;
-                } else if (d < DistanceObjectLong2 + 50 && d > DistanceObjectLong2 - 50 && !distance2Dec)
+                } else if (d < DistanceObjectLong2 + 75 && d > DistanceObjectLong2 - 75 && !distance2Dec)
                 {
                     distance2Dec = true;
                     distanceObjectLong2 = d;
 
-                } else if (d < DistanceObjectMin + 50 && d > DistanceObjectMin - 50)
+                } else if (d < DistanceObjectMin + 75 && d > DistanceObjectMin - 75)
                 {
                     distance3Dec = true;
 
