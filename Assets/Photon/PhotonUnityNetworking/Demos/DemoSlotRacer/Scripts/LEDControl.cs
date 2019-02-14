@@ -25,7 +25,7 @@ public class LEDControl : MonoBehaviour
         }
         LEDObjects.OrderBy(go => go.name);
 
-        LEDColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0f, 1f);
+        LEDColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.75f, 1f);
 
         LEDON.SetColor("_Color", LEDColor);
         LEDON.SetColor("_EmissionColor", LEDColor);
