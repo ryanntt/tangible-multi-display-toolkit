@@ -50,7 +50,7 @@ LightmapSettings:
     m_BounceScale: 1
     m_IndirectOutputScale: 1
     m_AlbedoBoost: 1
-    m_EnvironmentLightingMode: 0
+    m_EnvironmentLightingMode: 1
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
@@ -30587,6 +30587,28 @@ MonoBehaviour:
   LEDColor: {r: 0, g: 0, b: 0, a: 0}
   offsetTime: 1
   LEDObjects: []
+  LEDMaterials:
+  - {fileID: 2100000, guid: 466387d3551d84618a529af87e75ecc6, type: 2}
+  - {fileID: 2100000, guid: 83d2b947a20504387aa856e04af15886, type: 2}
+  - {fileID: 2100000, guid: ae63fe5eebd934f97b78177692e5184a, type: 2}
+  - {fileID: 2100000, guid: c7d7793aa0d624e47a63af37e0b169b1, type: 2}
+  - {fileID: 2100000, guid: 765dfe8b8f7d94d169a22996299f54a7, type: 2}
+  - {fileID: 2100000, guid: 39f7b3d4302f7413eb3ef48c3c19e6d3, type: 2}
+  - {fileID: 2100000, guid: f6f1a97a7d33e45b59a44e972cdae26f, type: 2}
+  - {fileID: 2100000, guid: c8167e4c868f1480fa91bbfc3e6fb051, type: 2}
+  - {fileID: 2100000, guid: 5b8b644dafba9410cb11da275274fa35, type: 2}
+  - {fileID: 2100000, guid: 4ed504a8dce044ae288923f65979dfde, type: 2}
+  - {fileID: 2100000, guid: 8bb18eceac03f4f89b441d89b5eb899a, type: 2}
+  - {fileID: 2100000, guid: 26207be1498724a9fb0f799816805957, type: 2}
+  - {fileID: 2100000, guid: 9c5f52b57e460466b8795cb2223090b9, type: 2}
+  - {fileID: 2100000, guid: 40c7c028e90f041efbbc712042f21c5a, type: 2}
+  - {fileID: 2100000, guid: 33cb125bde5da40e99522526537678a7, type: 2}
+  - {fileID: 2100000, guid: 825cfec3531244c22b12c39ff3bdc188, type: 2}
+  - {fileID: 2100000, guid: d8074fafd400640c182d51870e2af603, type: 2}
+  - {fileID: 2100000, guid: 3e2bbd4df8f7b43508bf575e85a6f0af, type: 2}
+  - {fileID: 2100000, guid: 99e65214933b34fdabcf2a699ccc09b0, type: 2}
+  - {fileID: 2100000, guid: b7af5c83d649443d8874817840735f67, type: 2}
+  - {fileID: 2100000, guid: 4e52baaec4f684df0bbae7d8825b81f6, type: 2}
 --- !u!1001 &1307351290
 PrefabInstance:
   m_ObjectHideFlags: 0

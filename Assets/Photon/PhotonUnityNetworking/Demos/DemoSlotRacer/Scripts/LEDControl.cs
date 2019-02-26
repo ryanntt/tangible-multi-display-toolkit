@@ -10,7 +10,8 @@ public class LEDControl : MonoBehaviour
     public Color LEDColor;
 
     public float offsetTime = 1; // speed of blinking
-    public List<Transform> LEDObjects; 
+    public List<Transform> LEDObjects;
+    public List<Material> LEDMaterials;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +20,7 @@ public class LEDControl : MonoBehaviour
         this.transform.SetParent(car.transform);
 
         LEDObjects = new List<Transform>();
-        foreach (Transform child in transform) 
+        foreach (Transform child in transform)
         {
             LEDObjects.Add(child);
         }
@@ -30,26 +31,47 @@ public class LEDControl : MonoBehaviour
         LEDON.SetColor("_Color", LEDColor);
         LEDON.SetColor("_EmissionColor", LEDColor);
 
-        StartCoroutine(Blink());
-        
+        ChangeColor(new string[] { "#00FF00", "#FF0000", "#0000FF", "#00FF00", "#FF0000", "#0000FF" });
+
+        //StartCoroutine(Blink());
+
     }
 
     // Update is called once per frame
     //void Update()
     //{
-        
+
     //}
 
     IEnumerator Blink()
     {
         while (true) {
             for (int i = 0; i < LEDObjects.Count; i++) {
-                LEDObjects[i].GetComponent<Renderer>().material = LEDON;
+                //LEDObjects[i].GetComponent<Renderer>().material = LEDON;
                 LEDObjects[i].GetChild(0).GetComponent<Light>().enabled = true;
                 yield return new WaitForSeconds(offsetTime);
-                LEDObjects[i].GetComponent<Renderer>().material = LEDOFF;
+                //LEDObjects[i].GetComponent<Renderer>().material = LEDOFF;
                 LEDObjects[i].GetChild(0).GetComponent<Light>().enabled = false;
             }
+        }
+    }
+
+    public void ChangeColor(string[] strings)
+    {
+        for (int i = 0; i < LEDObjects.Count; i++) {
+            if (i< strings.Length) {
+                Color newCol;
+                ColorUtility.TryParseHtmlString(strings[i], out newCol);
+                LEDMaterials[i].SetColor("_Color", newCol);
+                LEDON.SetColor("_EmissionColor", newCol);
+            }
+
+            else
+            {
+                LEDMaterials[i].SetColor("_Color", Random.ColorHSV(0f, 1f, 1f, 1f, 0.75f, 1f));
+                LEDON.SetColor("_EmissionColor", Random.ColorHSV(0f, 1f, 1f, 1f, 0.75f, 1f));
+            }
+            LEDObjects[i].GetComponent<Renderer>().material = LEDMaterials[i];
         }
     }
 }
