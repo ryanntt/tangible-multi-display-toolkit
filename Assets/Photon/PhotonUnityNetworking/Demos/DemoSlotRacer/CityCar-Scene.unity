@@ -30528,6 +30528,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1306300490}
   - component: {fileID: 1306300491}
+  - component: {fileID: 1306300492}
   m_Layer: 0
   m_Name: LEDs
   m_TagString: Untagged
@@ -30609,6 +30610,19 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 99e65214933b34fdabcf2a699ccc09b0, type: 2}
   - {fileID: 2100000, guid: b7af5c83d649443d8874817840735f67, type: 2}
   - {fileID: 2100000, guid: 4e52baaec4f684df0bbae7d8825b81f6, type: 2}
+--- !u!114 &1306300492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1306300489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5955f065fc2114cb89416c758bca51bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EndPointPort: 6454
 --- !u!1001 &1307351290
 PrefabInstance:
   m_ObjectHideFlags: 0

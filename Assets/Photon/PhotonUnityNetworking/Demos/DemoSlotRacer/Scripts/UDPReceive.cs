@@ -43,16 +43,39 @@ public class UDPReceive : MonoBehaviour
     {
         byte[] received = udpClient.EndReceive(result, ref RemoteIpEndPoint);
 
-        string receiveString = Encoding.ASCII.GetString(received);
+        int dmx = 18;
+        StringBuilder[] sb = new StringBuilder[21];
+        String[] str = new String[21];
 
-        for (int i=0; i<received.Length; i++)
-        {
-            Debug.Log("Received an encoded string: " + received[i]);
+        for (int i = 0; i < 21; i++) {
+            sb[i] = new StringBuilder();
+            sb[i].Append("#");
+            sb[i].Append(received[dmx++].ToString("X2"));
+            sb[i].Append(received[dmx++].ToString("X2"));
+            sb[i].Append(received[dmx++].ToString("X2"));
+            str[i] = sb[i].ToString();
         }
 
-        //Debug.Log("Received an encoded string: " + received);
+        /*for (int i=0; i<str.Length; i++)
+        {
+            Debug.Log("LEDs: " + str[i]);
+        }*/
+
+        //Output the colors received color values to the Car's LEDs
+        LEDControl led = GetComponent<LEDControl>();
+        led.ChangeColor(str);
 
         PrepareForUDP();
+    }
+
+    private string ExtractString(byte[] packet, int start, int length)
+    {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < packet.Length; i++)
+        {
+            sb.Append((char)packet[i]);
+        }
+        return sb.ToString();
     }
 
 
