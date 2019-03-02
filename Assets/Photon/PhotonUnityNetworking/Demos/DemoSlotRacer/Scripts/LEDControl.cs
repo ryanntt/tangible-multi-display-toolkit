@@ -28,8 +28,9 @@ public class LEDControl : MonoBehaviour
 
         LEDColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.75f, 1f);
 
-        LEDON.SetColor("_Color", LEDColor);
+        LEDON.SetColor("_Color", new Color(0.5f, 0.5f, 0.5f, 0.2f));
         LEDON.SetColor("_EmissionColor", LEDColor);
+        LEDON.EnableKeyword("_EMISSION");
 
         ChangeColor(new string[] { "#00FF00", "#FF0000", "#0000FF", "#00FF00", "#FF0000", "#0000FF" });
 
@@ -62,16 +63,17 @@ public class LEDControl : MonoBehaviour
             if (i< strings.Length) {
                 Color newCol;
                 ColorUtility.TryParseHtmlString(strings[i], out newCol);
-                LEDMaterials[i].SetColor("_Color", newCol);
-                LEDON.SetColor("_EmissionColor", newCol);
+                LEDMaterials[i].SetColor("_Color", new Color(0.5f,0.5f,0.5f,0.2f));
+                LEDMaterials[i].SetColor("_EmissionColor", newCol);
             }
 
             else
             {
-                LEDMaterials[i].SetColor("_Color", Random.ColorHSV(0f, 1f, 1f, 1f, 0.75f, 1f));
-                LEDON.SetColor("_EmissionColor", Random.ColorHSV(0f, 1f, 1f, 1f, 0.75f, 1f));
+                //LEDMaterials[i].SetColor("_Color", Random.ColorHSV(0f, 1f, 1f, 1f, 0.75f, 1f));
+                //LEDON.SetColor("_EmissionColor", Random.ColorHSV(0f, 1f, 1f, 1f, 0.75f, 1f));
             }
             LEDObjects[i].GetComponent<Renderer>().material = LEDMaterials[i];
+            LEDObjects[i].GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
         }
     }
 }
