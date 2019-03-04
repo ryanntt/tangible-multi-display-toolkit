@@ -112,16 +112,18 @@ public class Touchinput : MonoBehaviourPunCallbacks
             {
                 print(d);
 
-                if(d < DistanceObjectLong1 + 75 && d > DistanceObjectLong1 - 75 && !distance1Dec)
+                if (d < DistanceObjectLong1 + 75 && d > DistanceObjectLong1 - 75 && !distance1Dec)
                 {
                     distance1Dec = true;
                     distanceObjectLong1 = d;
-                } else if (d < DistanceObjectLong2 + 75 && d > DistanceObjectLong2 - 75 && !distance2Dec)
+                }
+                else if (d < DistanceObjectLong2 + 75 && d > DistanceObjectLong2 - 75 && !distance2Dec)
                 {
                     distance2Dec = true;
                     distanceObjectLong2 = d;
 
-                } else if (d < DistanceObjectMin + 75 && d > DistanceObjectMin - 75)
+                }
+                else if (d < DistanceObjectMin + 75 && d > DistanceObjectMin - 75)
                 {
                     distance3Dec = true;
 
@@ -133,7 +135,7 @@ public class Touchinput : MonoBehaviourPunCallbacks
             {
                 print("recognized");
 
-                Vector2 p = new Vector2(0,0);
+                Vector2 p = new Vector2(0, 0);
                 p.x = sumX / 3;
                 p.y = sumY / 3;
 
@@ -168,7 +170,11 @@ public class Touchinput : MonoBehaviourPunCallbacks
 
 
                     car.GetComponent<PhotonView>().RequestOwnership();
-                    car.transform.position = hit.point;
+                    car.transform.position = Utils.ChangeZ(car.transform.position, hit.point.z);
+                    car.transform.position = Utils.ChangeX(car.transform.position, hit.point.x); // change x
+                    //car.transform.position = Utils.ChangeY(car.transform.position, hit.point.y); // change x
+
+
                     car.transform.eulerAngles = new Vector3(0, angle * (180 / Mathf.PI), 0);
 
 
@@ -185,3 +191,24 @@ public class Touchinput : MonoBehaviourPunCallbacks
 
 }
 
+
+public static class Utils
+{
+
+
+    public static Vector3 ChangeX(Vector3 v, float x)
+    {
+        return new Vector3(x, v.y, v.z);
+    }
+
+    public static Vector3 ChangeY(Vector3 v, float y)
+    {
+        return new Vector3(v.x, y, v.z);
+    }
+
+    public static Vector3 ChangeZ(Vector3 v, float z)
+    {
+        return new Vector3(v.x, v.y, z);
+    }
+
+}
