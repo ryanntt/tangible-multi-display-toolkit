@@ -65,8 +65,8 @@ public class LEDControl : MonoBehaviour
                 ColorUtility.TryParseHtmlString(strings[i], out newCol);
                 LEDMaterials[i].SetColor("_Color", new Color(0.5f,0.5f,0.5f,0.2f));
                 LEDMaterials[i].SetColor("_EmissionColor", newCol);
-                LEDObjects[i].GetComponentInChildren<Light>().color = newCol;
             }
+
             else
             {
                 //LEDMaterials[i].SetColor("_Color", Random.ColorHSV(0f, 1f, 1f, 1f, 0.75f, 1f));
@@ -74,7 +74,6 @@ public class LEDControl : MonoBehaviour
             }
             LEDObjects[i].GetComponent<Renderer>().material = LEDMaterials[i];
             LEDObjects[i].GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
-
         }
     }
 }
