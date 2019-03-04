@@ -8,10 +8,12 @@ public class LEDControl : MonoBehaviour
     public Material LEDON;
     public Material LEDOFF;
     public Color LEDColor;
-
+    public Color backColor = new Color(0.5f, 0.5f, 0.5f, 0.2f);
     public float offsetTime = 1; // speed of blinking
     public List<Transform> LEDObjects;
     public List<Material> LEDMaterials;
+
+    string oldStr = "";
 
     // Start is called before the first frame update
     void Start()
@@ -59,11 +61,20 @@ public class LEDControl : MonoBehaviour
 
     public void ChangeColor(string[] strings)
     {
+        string str = "";
+        for (int i = 0; i< strings.Length; i++) {
+            str += strings[i];
+        }
+        print(str);
+
+        //quick fix to avoid flickering of the LEDs (if we later send dynamic light patterns, we should check for each single LED if the value changed to avoid flickering
+        if (str != oldStr)
+        {
         for (int i = 0; i < LEDObjects.Count; i++) {
             if (i< strings.Length) {
                 Color newCol;
                 ColorUtility.TryParseHtmlString(strings[i], out newCol);
-                LEDMaterials[i].SetColor("_Color", new Color(0.5f,0.5f,0.5f,0.2f));
+                LEDMaterials[i].SetColor("_Color", backColor);
                 LEDMaterials[i].SetColor("_EmissionColor", newCol);
             }
 
@@ -74,6 +85,9 @@ public class LEDControl : MonoBehaviour
             }
             LEDObjects[i].GetComponent<Renderer>().material = LEDMaterials[i];
             LEDObjects[i].GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
+        }
+
+            oldStr = str;
         }
     }
 }
