@@ -30586,6 +30586,7 @@ MonoBehaviour:
   LEDON: {fileID: 2100000, guid: bacc9bc89f35f4cffb63a79805c2a457, type: 2}
   LEDOFF: {fileID: 2100000, guid: e6041b09c3fad402e8db5e6a6c4c9533, type: 2}
   LEDColor: {r: 0, g: 0, b: 0, a: 0}
+  backColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.2}
   offsetTime: 1
   LEDObjects: []
   LEDMaterials:
@@ -30842,6 +30843,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 3388162327365820555, guid: 4910a004464ca4efa808af20d2eb1e15,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a50b5bf86b654fad8b3bbd7e23dc483, type: 2}
+    - target: {fileID: 5395364820166671644, guid: 4910a004464ca4efa808af20d2eb1e15,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a50b5bf86b654fad8b3bbd7e23dc483, type: 2}
+    - target: {fileID: 2213958443151257151, guid: 4910a004464ca4efa808af20d2eb1e15,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a50b5bf86b654fad8b3bbd7e23dc483, type: 2}
+    - target: {fileID: 585601421419852906, guid: 4910a004464ca4efa808af20d2eb1e15,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5c4ff717fb7b74fd59c0ed9692860b94, type: 2}
+    - target: {fileID: 7766438198152297659, guid: 4910a004464ca4efa808af20d2eb1e15,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5c4ff717fb7b74fd59c0ed9692860b94, type: 2}
+    - target: {fileID: 8032949941692057815, guid: 4910a004464ca4efa808af20d2eb1e15,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5c4ff717fb7b74fd59c0ed9692860b94, type: 2}
+    - target: {fileID: 2862283334880322625, guid: 4910a004464ca4efa808af20d2eb1e15,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5c4ff717fb7b74fd59c0ed9692860b94, type: 2}
+    - target: {fileID: 3884713774235380393, guid: 4910a004464ca4efa808af20d2eb1e15,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a50b5bf86b654fad8b3bbd7e23dc483, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4910a004464ca4efa808af20d2eb1e15, type: 3}
 --- !u!1 &1309512957 stripped
