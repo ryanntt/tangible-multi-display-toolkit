@@ -173,11 +173,18 @@ namespace Photon.Pun.Demo.SlotRacer
             if (playerOrder == 2 && this.photonView.IsMine) {
                 // instead of creating a new car, we just use the existing pedestrian
                 this.CarInstance = GameObject.FindGameObjectsWithTag("PedestrianPlayer")[0];
-                Debug.Log(this.CarInstance.name);
+                //Debug.Log(this.CarInstance.name);
+
+                // Define the ownership of this object to be taken, meaning any player can request and take over its ownership
+                this.CarInstance.GetPhotonView().OwnershipTransfer = OwnershipOption.Takeover;
+                this.CarInstance.transform.SetParent(this.transform);
 
                 //print(pedestrianCamera.name);
                 //pedestrianCamera.SetActive(true);
+
+                //Put Pedestrian camera under the car instance - in this case is the pedestrian
                 pedestrianCamera.transform.parent = this.CarInstance.transform;
+
                 pedestrianCamera.GetComponent<Camera>().enabled = true;
 
                 mainCamera1.GetComponent<Camera>().enabled = false;
