@@ -71,6 +71,7 @@ namespace Photon.Pun.Demo.SlotRacer
         private GameObject mainCamera1;
         private GameObject mainCamera2;
         private GameObject pedestrianCamera;
+        private GameObject contexts;
 
         private float m_input;
 
@@ -192,6 +193,10 @@ namespace Photon.Pun.Demo.SlotRacer
 
                 mainCamera2.GetComponent<Camera>().enabled = false;
                 mainCamera2.GetComponent<Touchinput>().enabled = false;
+
+                // Hide context indicator in 3rd iPad
+                contexts = GameObject.FindGameObjectWithTag("Contexts");
+                contexts.SetActive(false);
 
                 // We'll wait for the first serializatin to pass, else we'll have a glitch where the car is positioned at the wrong position.
                 if (!this.photonView.IsMine)
