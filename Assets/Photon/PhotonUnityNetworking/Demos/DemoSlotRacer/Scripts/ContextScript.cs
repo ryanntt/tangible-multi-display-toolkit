@@ -18,7 +18,6 @@ public class ContextScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -30,21 +29,21 @@ public class ContextScript : MonoBehaviour
         if ( dist <= 3.0) 
         {
             ActivateContext();
-            UpdateText("Activated :)");
+            //UpdateText("Activated :)");
         } else
         {
             DeactivateContext();
-            UpdateText("Inactive");
+            //UpdateText("Inactive");
         }
     }
 
     // To change the visual of context indicator
-    public void ActivateContext() 
+    private void ActivateContext() 
     {
         statusRenderer.sprite = activated;
     }
 
-    public void DeactivateContext() {
+    private void DeactivateContext() {
         statusRenderer.sprite = inactive; 
     }
 
