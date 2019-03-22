@@ -15,7 +15,8 @@ public class UDPReceive : MonoBehaviour
     Thread sendThread;
 
     // udpclient object
-    UdpClient client;
+    UdpClient receiveClient;
+    UdpClient sendClient;
 
     // send data endpoint
     IPEndPoint remoteEndPoint;
@@ -23,7 +24,8 @@ public class UDPReceive : MonoBehaviour
 
     // public
     public string IP = "192.168.0.103";
-    public int port; // define > init
+    public int receivePort; // define > init
+    public int sendPort; // define > init
 
     // infos
     public string lastReceivedUDPPacket = "";
@@ -58,7 +60,8 @@ public class UDPReceive : MonoBehaviour
         print("UDPSend.init()");
 
         // define port
-        port = 6454;
+        receivePort = 6454;
+        sendPort = 6455;
 
         // status
         //print("Sending to 127.0.0.1 : " + port);
@@ -72,17 +75,20 @@ public class UDPReceive : MonoBehaviour
         // ----------------------------
         // Lokalen Endpunkt definieren (wo Nachrichten empfangen werden).
         // Einen neuen Thread für den Empfang eingehender Nachrichten erstellen.
-        client = new UdpClient(port);
+        receiveClient = new UdpClient(receivePort);
+
+        sendClient = new UdpClient(sendPort);
+
 
         receiveThread = new Thread(
-            new ThreadStart(() => ReceiveData(client)));
+            new ThreadStart(() => ReceiveData(receiveClient)));
         receiveThread.IsBackground = true;
         receiveThread.Start();
 
-        //sendThread = new Thread(
-        //    new ThreadStart(send));
-        //sendThread.IsBackground = true;
-        //sendThread.Start();
+        sendThread = new Thread(
+            new ThreadStart(() => SendData(sendClient)));
+        sendThread.IsBackground = true;
+        sendThread.Start();
 
         /*while (true)
         {
@@ -93,11 +99,24 @@ public class UDPReceive : MonoBehaviour
 
     }
 
-    public void send()
+    public void SendData(UdpClient sendClient)
     {
-        string text = "test to ipad";
-        byte[] data = Encoding.UTF8.GetBytes(text);
-        client.Send(data, data.Length, IP, 6454);
+        print("Send to iPad");
+
+        while (true)
+        {
+            try
+            {
+                print("Send to iPad");
+                string text = "test to ipad from second screen";
+                byte[] data = Encoding.UTF8.GetBytes(text);
+                sendClient.Send(data, data.Length, "192.168.0.103", sendPort);
+            }
+            catch (Exception err)
+            {
+                print(err.ToString());
+            }
+        }
     }
 
     // receive thread
@@ -110,7 +129,7 @@ public class UDPReceive : MonoBehaviour
             try
             {
                 // Bytes empfangen.
-                /*IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
+                IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
                 byte[] received = client.Receive(ref anyIP);
 
                 print(anyIP.Address);
@@ -141,13 +160,13 @@ public class UDPReceive : MonoBehaviour
                 }*/
 
                 //Output the colors received color values to the Car's LEDs
-                /*LEDControl led = GetComponent<LEDControl>();
-                led.ChangeColor(str);*/
+                LEDControl led = GetComponent<LEDControl>();
+                led.ChangeColor(str);
 
                 //send();
-                string t = "test to ipad";
-                byte[] data = Encoding.UTF8.GetBytes(t);
-                client.Send(data, data.Length, "192.168.0.103", 6454);
+                //string t = "test to ipad";
+                //byte[] data = Encoding.UTF8.GetBytes(t);
+                //client.Send(data, data.Length, "192.168.0.103", 6454);
 
             }
             catch (Exception err)
@@ -202,7 +221,7 @@ public class UDPReceive : MonoBehaviour
     private void OnDestroy()
     {
         // make sure to clean up sockets on exit
-        client.Client.Close();
-        client.Close();
+        receiveClient.Client.Close();
+        receiveClient.Close();
     }
 }
