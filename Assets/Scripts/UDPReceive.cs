@@ -63,11 +63,6 @@ public class UDPReceive : MonoBehaviour
         receivePort = 6454;
         sendPort = 6455;
 
-        // status
-        //print("Sending to 127.0.0.1 : " + port);
-        //print("Test-Sending to this Port: nc -u 127.0.0.1  " + port + "");
-
-
         //remoteEndPoint = new IPEndPoint(IPAddress.Parse(IP), port);
 
         // ----------------------------
@@ -85,10 +80,10 @@ public class UDPReceive : MonoBehaviour
         receiveThread.IsBackground = true;
         receiveThread.Start();
 
-        sendThread = new Thread(
-            new ThreadStart(() => SendData(sendClient)));
-        sendThread.IsBackground = true;
-        sendThread.Start();
+        //sendThread = new Thread(
+        //    new ThreadStart(() => SendData(sendClient)));
+        //sendThread.IsBackground = true;
+        //sendThread.Start();
 
         /*while (true)
         {
@@ -137,36 +132,43 @@ public class UDPReceive : MonoBehaviour
                 // Bytes mit der UTF8-Kodierung in das Textformat kodieren.
                 string text = Encoding.UTF8.GetString(received);
 
-                // Den abgerufenen Text anzeigen.
-                print(">> " + text);
+                if (text.Contains("Art-Net")) {
 
-                int dmx = 18;
-                StringBuilder[] sb = new StringBuilder[21];
-                String[] str = new String[21];
+                    // Den abgerufenen Text anzeigen.
+                    print(">> " + text);
 
-                for (int i = 0; i < 21; i++)
-                {
-                    sb[i] = new StringBuilder();
-                    sb[i].Append("#");
-                    sb[i].Append(received[dmx++].ToString("X2"));
-                    sb[i].Append(received[dmx++].ToString("X2"));
-                    sb[i].Append(received[dmx++].ToString("X2"));
-                    str[i] = sb[i].ToString();
+                    int dmx = 18;
+                    StringBuilder[] sb = new StringBuilder[21];
+                    String[] str = new String[21];
+
+                    for (int i = 0; i < 21; i++)
+                    {
+                        sb[i] = new StringBuilder();
+                        sb[i].Append("#");
+                        sb[i].Append(received[dmx++].ToString("X2"));
+                        sb[i].Append(received[dmx++].ToString("X2"));
+                        sb[i].Append(received[dmx++].ToString("X2"));
+                        str[i] = sb[i].ToString();
+                    }
+
+                    //Output the colors received color values to the Car's LEDs
+                    LEDControl led = GetComponent<LEDControl>();
+                    led.ChangeColor(str);
+
                 }
-
-                /*for (int i=0; i<str.Length; i++)
+                else
                 {
-                    Debug.Log("LEDs: " + str[i]);
-                }*/
+                    string jsonString = JsonHelper.FixJson(text);
+                    Context[] contexts = JsonHelper.FromJson<Context>(jsonString);
 
-                //Output the colors received color values to the Car's LEDs
-                LEDControl led = GetComponent<LEDControl>();
-                led.ChangeColor(str);
+                    ContextManager ctxManager = GameObject.FindWithTag("Contexts").GetComponent<ContextManager>();
+                    print(contexts[0].name);
+                    for (int i = 0; i < contexts.Length; i++)
+                    {
+                        ctxManager.UpdateContext(i+1, contexts[i].name);
+                    }
 
-                //send();
-                //string t = "test to ipad";
-                //byte[] data = Encoding.UTF8.GetBytes(t);
-                //client.Send(data, data.Length, "192.168.0.103", 6454);
+                }
 
             }
             catch (Exception err)
@@ -175,37 +177,6 @@ public class UDPReceive : MonoBehaviour
             }
         }
     }
-
-    /*public void SendData(UdpClient client, IPEndPoint remoteEndPoint)
-    {
-        try
-        {
-            string text;
-            do
-            {
-                text = "test to ipad";
-
-                // Den Text zum Remote-Client senden.
-                if (text != "")
-                {
-                    remoteEndPoint = new IPEndPoint(IPAddress.Parse(IP), port);
-
-                    // Daten mit der UTF8-Kodierung in das Binärformat kodieren.
-                    byte[] data = Encoding.UTF8.GetBytes(text);
-
-                    // Den Text zum Remote-Client senden.
-                    client.Send(data, data.Length, remoteEndPoint);
-
-                    print(">> " + text);
-                }
-            } while (text != "");
-        }
-        catch (Exception err)
-        {
-            print(err.ToString());
-        }
-    }*/
-
 
     private string ExtractString(byte[] packet, int start, int length)
     {
@@ -224,4 +195,11 @@ public class UDPReceive : MonoBehaviour
         receiveClient.Client.Close();
         receiveClient.Close();
     }
+}
+
+[Serializable]
+internal class Context
+{
+    public string name;
+    public int id;
 }

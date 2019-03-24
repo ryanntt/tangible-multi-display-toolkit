@@ -24,7 +24,7 @@ public class ContextScript : MonoBehaviour
     void Update()
     {
         var dist = Vector3.Distance(statusRenderer.transform.position, target.transform.position);
-        print("Distance to car is:"+ dist);
+        //print("Distance to car is:"+ dist);
 
         if ( dist <= 3.0) 
         {
