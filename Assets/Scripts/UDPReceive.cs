@@ -165,7 +165,32 @@ public class UDPReceive : MonoBehaviour
                     print(contexts[0].name);
                     for (int i = 0; i < contexts.Length; i++)
                     {
-                        ctxManager.UpdateContext(i+1, contexts[i].name);
+                        string contextName = contexts[i].name;
+
+                        string finalString = contextName;
+                        int length = contextName.Length;
+
+                        int linebreakPosition = 15;
+
+                        if (length > linebreakPosition)
+                        {
+                            bool found = false;
+                            int position = linebreakPosition;
+                            while(!found)
+                            {
+                                if(contextName[position]==' ')
+                                {
+                                    finalString = contextName.Substring(0, position) + '\n' + contextName.Substring(position);
+                                    found = true;
+                                }
+                                else
+                                {
+                                    position--;
+                                }
+                            }
+                        }
+
+                        ctxManager.UpdateContext(i+1, finalString);
                     }
 
                 }
