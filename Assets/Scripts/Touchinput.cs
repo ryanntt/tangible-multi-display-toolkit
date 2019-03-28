@@ -29,7 +29,8 @@ public class Touchinput : MonoBehaviourPunCallbacks
         if (Input.touches.Length > 2)
         {
             //print("more touches");
-            if (TangibleModeEnabled == true) {
+            if (TangibleModeEnabled == true) // Tangible Mode On
+            {
                 int i = 0;
                 int ii = 0;
 
@@ -241,14 +242,12 @@ public class Touchinput : MonoBehaviourPunCallbacks
 
 
                     }
-
-
                 }
-
             }
-
-
-
+            else
+            {
+                // Implement Tangible Mode Off here
+            }
         }
 
 
