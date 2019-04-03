@@ -6,6 +6,7 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.IO;
 
 public class UDPReceive : MonoBehaviour
 {
@@ -17,6 +18,13 @@ public class UDPReceive : MonoBehaviour
     // udpclient object
     UdpClient receiveClient;
     UdpClient sendClient;
+
+    //TCP
+    TcpClient mySocket;
+    NetworkStream theStream;
+    StreamWriter theWriter;
+    Thread clientReceiveThread;
+
 
     // send data endpoint
     IPEndPoint remoteEndPoint;
@@ -63,55 +71,109 @@ public class UDPReceive : MonoBehaviour
         receivePort = 6454;
         sendPort = 6455;
 
-        //remoteEndPoint = new IPEndPoint(IPAddress.Parse(IP), port);
 
-        // ----------------------------
-        // Abhören
-        // ----------------------------
-        // Lokalen Endpunkt definieren (wo Nachrichten empfangen werden).
-        // Einen neuen Thread für den Empfang eingehender Nachrichten erstellen.
         receiveClient = new UdpClient(receivePort);
-
-        sendClient = new UdpClient(sendPort);
-
 
         receiveThread = new Thread(
             new ThreadStart(() => ReceiveData(receiveClient)));
         receiveThread.IsBackground = true;
         receiveThread.Start();
 
-        //sendThread = new Thread(
-        //    new ThreadStart(() => SendData(sendClient)));
-        //sendThread.IsBackground = true;
-        //sendThread.Start();
-
-        /*while (true)
+        try
         {
-            string text = "test to ipad";
-            byte[] data = Encoding.UTF8.GetBytes(text);
-            client.Send(data, data.Length, "192.168.0.103", 6454);
-        }*/
+            mySocket = new TcpClient("192.168.0.103", 5566);
+            theStream = mySocket.GetStream();
+            theWriter = new StreamWriter(theStream);
+        }
+        catch (Exception e)
+        {
+            print("Socket error: " + e);
+        }
+
+        try
+        {
+            clientReceiveThread = new Thread(new ThreadStart(() => ListenForData(mySocket)));
+            clientReceiveThread.IsBackground = true;
+            clientReceiveThread.Start();
+        }
+        catch (Exception e)
+        {
+            print("On client connect exception " + e);
+        }
 
     }
 
-    public void SendData(UdpClient sendClient)
-    {
-        print("Send to iPad");
 
-        while (true)
+    private void ListenForData(TcpClient socket)
+    {
+        try
         {
-            try
+            Byte[] bytes = new Byte[1024];
+            while (true)
             {
-                print("Send to iPad");
-                string text = "test to ipad from second screen";
-                byte[] data = Encoding.UTF8.GetBytes(text);
-                sendClient.Send(data, data.Length, "192.168.0.103", sendPort);
-            }
-            catch (Exception err)
-            {
-                print(err.ToString());
+                // Get a stream object for reading              
+                using (NetworkStream stream = socket.GetStream())
+                {
+                    int length;
+                    // Read incomming stream into byte arrary.                  
+                    while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
+                    {
+                        var incommingData = new byte[length];
+                        Array.Copy(bytes, 0, incommingData, 0, length);
+                        // Convert byte array to string message.                        
+                        string serverMessage = Encoding.ASCII.GetString(incommingData);
+                        print("server message received as: " + serverMessage);
+
+                        string jsonString = JsonHelper.FixJson(serverMessage);
+                        Context[] contexts = JsonHelper.FromJson<Context>(jsonString);
+
+                        ContextManager ctxManager = GameObject.FindWithTag("Contexts").GetComponent<ContextManager>();
+                        print(contexts[0].name);
+                        for (int i = 0; i < contexts.Length; i++)
+                        {
+                            string contextName = contexts[i].name;
+
+                            string finalString = contextName;
+                            int ctxLength = contextName.Length;
+
+                            int linebreakPosition = 15;
+
+                            if (ctxLength > linebreakPosition)
+                            {
+                                bool found = false;
+                                int position = linebreakPosition;
+                                while (!found)
+                                {
+                                    if (contextName[position] == ' ')
+                                    {
+                                        finalString = contextName.Substring(0, position) + '\n' + contextName.Substring(position);
+                                        found = true;
+                                    }
+                                    else
+                                    {
+                                        position--;
+                                    }
+                                }
+                            }
+
+                            ctxManager.UpdateContext(i + 1, finalString);
+                        }
+                    }
+                }
             }
         }
+        catch (SocketException socketException)
+        {
+            print("Socket exception: " + socketException);
+        }
+    }
+
+    public void writeSocket(string theLine)
+    {
+        String foo = theLine + "\r\n";
+        theWriter.Write(foo);
+        theWriter.Flush();
+        print("writeTCP");
     }
 
     // receive thread
@@ -152,49 +214,12 @@ public class UDPReceive : MonoBehaviour
                     }
 
                     //Output the colors received color values to the Car's LEDs
-                    LEDControl led = GetComponent<LEDControl>();
+
+                    LEDControl led = GameObject.Find("LEDs").GetComponent<LEDControl>();
                     led.ChangeColor(str);
 
+                    writeSocket("test2");
                 }
-                else
-                {
-                    string jsonString = JsonHelper.FixJson(text);
-                    Context[] contexts = JsonHelper.FromJson<Context>(jsonString);
-
-                    ContextManager ctxManager = GameObject.FindWithTag("Contexts").GetComponent<ContextManager>();
-                    print(contexts[0].name);
-                    for (int i = 0; i < contexts.Length; i++)
-                    {
-                        string contextName = contexts[i].name;
-
-                        string finalString = contextName;
-                        int length = contextName.Length;
-
-                        int linebreakPosition = 15;
-
-                        if (length > linebreakPosition)
-                        {
-                            bool found = false;
-                            int position = linebreakPosition;
-                            while(!found)
-                            {
-                                if(contextName[position]==' ')
-                                {
-                                    finalString = contextName.Substring(0, position) + '\n' + contextName.Substring(position);
-                                    found = true;
-                                }
-                                else
-                                {
-                                    position--;
-                                }
-                            }
-                        }
-
-                        ctxManager.UpdateContext(i+1, finalString);
-                    }
-
-                }
-
             }
             catch (Exception err)
             {
