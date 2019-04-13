@@ -29,7 +29,7 @@ public class Touchinput : MonoBehaviourPunCallbacks
         {
             if (GetComponent<Camera>().enabled == false) {
                 GetComponent<Camera>().enabled = true;
-                GameObject.FindWithTag("PlayerCamera").GetComponent<Camera>().enabled = true;
+                GameObject.FindWithTag("PlayerCamera").GetComponent<Camera>().enabled = false;
             }
 
             if (Input.touches.Length > 2)
