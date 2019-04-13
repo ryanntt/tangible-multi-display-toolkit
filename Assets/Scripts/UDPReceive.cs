@@ -13,22 +13,15 @@ public class UDPReceive : MonoBehaviour
 
     // receiving Thread
     Thread receiveThread;
-    Thread sendThread;
 
     // udpclient object
     UdpClient receiveClient;
-    UdpClient sendClient;
 
     //TCP
     TcpClient mySocket;
     NetworkStream theStream;
     StreamWriter theWriter;
     Thread clientReceiveThread;
-
-
-    // send data endpoint
-    IPEndPoint remoteEndPoint;
-
 
     // public
     public string IP = "192.168.0.103";
@@ -124,40 +117,8 @@ public class UDPReceive : MonoBehaviour
                         string serverMessage = Encoding.ASCII.GetString(incommingData);
                         print("server message received as: " + serverMessage);
 
-                        string jsonString = JsonHelper.FixJson(serverMessage);
-                        Context[] contexts = JsonHelper.FromJson<Context>(jsonString);
-
                         ContextManager ctxManager = GameObject.FindWithTag("Contexts").GetComponent<ContextManager>();
-                        print(contexts[0].name);
-                        for (int i = 0; i < contexts.Length; i++)
-                        {
-                            string contextName = contexts[i].name;
-
-                            string finalString = contextName;
-                            int ctxLength = contextName.Length;
-
-                            int linebreakPosition = 15;
-
-                            if (ctxLength > linebreakPosition)
-                            {
-                                bool found = false;
-                                int position = linebreakPosition;
-                                while (!found)
-                                {
-                                    if (contextName[position] == ' ')
-                                    {
-                                        finalString = contextName.Substring(0, position) + '\n' + contextName.Substring(position);
-                                        found = true;
-                                    }
-                                    else
-                                    {
-                                        position--;
-                                    }
-                                }
-                            }
-
-                            ctxManager.UpdateContext(i + 1, finalString);
-                        }
+                        ctxManager.UpdateContexts(serverMessage);
                     }
                 }
             }
@@ -218,7 +179,7 @@ public class UDPReceive : MonoBehaviour
                     LEDControl led = GameObject.Find("LEDs").GetComponent<LEDControl>();
                     led.ChangeColor(str);
 
-                    writeSocket("test2");
+                    //writeSocket("test2");
                 }
             }
             catch (Exception err)
@@ -245,11 +206,4 @@ public class UDPReceive : MonoBehaviour
         receiveClient.Client.Close();
         receiveClient.Close();
     }
-}
-
-[Serializable]
-internal class Context
-{
-    public string name;
-    public int id;
 }

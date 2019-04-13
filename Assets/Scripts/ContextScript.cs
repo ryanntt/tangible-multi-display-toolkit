@@ -13,7 +13,11 @@ public class ContextScript : MonoBehaviour
     private SpriteRenderer statusRenderer;
 
     [SerializeField]
-    private TextMesh textMesh;
+    public TextMesh textMesh;
+
+    public bool isActivated;
+
+    public int ID;
 
     // Start is called before the first frame update
     void Start()
@@ -41,10 +45,20 @@ public class ContextScript : MonoBehaviour
     private void ActivateContext() 
     {
         statusRenderer.sprite = activated;
+        if (!isActivated)
+        {
+            ContextManager ctxManager = GameObject.FindWithTag("Contexts").GetComponent<ContextManager>();
+            ctxManager.ActivateContext(ID);
+            isActivated = true;
+        }
     }
 
     private void DeactivateContext() {
-        statusRenderer.sprite = inactive; 
+        statusRenderer.sprite = inactive;
+        if (isActivated)
+        {
+            isActivated = false;
+        }
     }
 
     // To change the display text
