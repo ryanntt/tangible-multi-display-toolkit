@@ -25,11 +25,14 @@ public class Touchinput : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Update()
     {
-
-        if (Input.touches.Length > 2)
+        if (TangibleModeEnabled == true)
         {
-            //print("more touches");
-            if (TangibleModeEnabled == true) // Tangible Mode On
+            if (GetComponent<Camera>().enabled == false) {
+                GetComponent<Camera>().enabled = true;
+                GameObject.FindWithTag("PlayerCamera").GetComponent<Camera>().enabled = true;
+            }
+
+            if (Input.touches.Length > 2)
             {
                 int i = 0;
                 int ii = 0;
@@ -243,14 +246,20 @@ public class Touchinput : MonoBehaviourPunCallbacks
 
                     }
                 }
+
             }
-            else
-            {
-                // Implement Tangible Mode Off here
-            }
+
+
         }
 
 
+        if (TangibleModeEnabled == false) { // If this is nontangible, cameras of view 1 and 2 are disabled
+            if (GetComponent<Camera>().enabled == true)
+            {
+                GetComponent<Camera>().enabled = false;
+                GameObject.FindWithTag("PlayerCamera").GetComponent<Camera>().enabled = true;
+            }
+        }
     }
 
     public void TangibleMode_Changed(bool newValue) {
