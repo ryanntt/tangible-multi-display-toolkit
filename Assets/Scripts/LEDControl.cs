@@ -13,7 +13,11 @@ public class LEDControl : MonoBehaviour
     public List<Transform> LEDObjects;
     public List<Material> LEDMaterials;
 
+    string str = "";
     string oldStr = "";
+    string[] strings;
+
+    bool lockThread = false;
 
     // Start is called before the first frame update
     void Start()
@@ -41,10 +45,38 @@ public class LEDControl : MonoBehaviour
     }
 
     // Update is called once per frame
-    //void Update()
-    //{
+    void Update()
+    {
+        if (!lockThread)
+        {
+            lockThread = true;
+            //quick fix to avoid flickering of the LEDs (if we later send dynamic light patterns, we should check for each single LED if the value changed to avoid flickering
+            if (str != oldStr)
+            {
+                for (int i = 0; i < LEDObjects.Count; i++)
+                {
+                    if (i < strings.Length)
+                    {
+                        Color newCol;
+                        ColorUtility.TryParseHtmlString(strings[i], out newCol);
+                        LEDMaterials[i].SetColor("_Color", backColor);
+                        LEDMaterials[i].SetColor("_EmissionColor", newCol);
+                    }
 
-    //}
+                    else
+                    {
+                        //LEDMaterials[i].SetColor("_Color", Random.ColorHSV(0f, 1f, 1f, 1f, 0.75f, 1f));
+                        //LEDON.SetColor("_EmissionColor", Random.ColorHSV(0f, 1f, 1f, 1f, 0.75f, 1f));
+                    }
+                    LEDObjects[i].GetComponent<Renderer>().material = LEDMaterials[i];
+                    LEDObjects[i].GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
+                }
+
+                oldStr = str;
+            }
+            lockThread = false;
+        }
+    }
 
     IEnumerator Blink()
     {
@@ -59,35 +91,20 @@ public class LEDControl : MonoBehaviour
         }
     }
 
-    public void ChangeColor(string[] strings)
+    public void ChangeColor(string[] stringsSend)
     {
-        string str = "";
-        for (int i = 0; i< strings.Length; i++) {
-            str += strings[i];
-        }
-        print(str);
-
-        //quick fix to avoid flickering of the LEDs (if we later send dynamic light patterns, we should check for each single LED if the value changed to avoid flickering
-        if (str != oldStr)
+        if (!lockThread)
         {
-        for (int i = 0; i < LEDObjects.Count; i++) {
-            if (i< strings.Length) {
-                Color newCol;
-                ColorUtility.TryParseHtmlString(strings[i], out newCol);
-                LEDMaterials[i].SetColor("_Color", backColor);
-                LEDMaterials[i].SetColor("_EmissionColor", newCol);
-            }
-
-            else
+            lockThread = true;
+            str = "";
+            for (int i = 0; i < stringsSend.Length; i++)
             {
-                //LEDMaterials[i].SetColor("_Color", Random.ColorHSV(0f, 1f, 1f, 1f, 0.75f, 1f));
-                //LEDON.SetColor("_EmissionColor", Random.ColorHSV(0f, 1f, 1f, 1f, 0.75f, 1f));
+                str += stringsSend[i];
             }
-            LEDObjects[i].GetComponent<Renderer>().material = LEDMaterials[i];
-            LEDObjects[i].GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
+            print(str);
+            strings = stringsSend;
+            lockThread = false;
         }
 
-            oldStr = str;
-        }
     }
 }
