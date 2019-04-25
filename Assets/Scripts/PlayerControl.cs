@@ -152,6 +152,9 @@ namespace Photon.Pun.Demo.SlotRacer
 
                 mainCamera1.transform.parent = this.transform;
 
+                mainCamera2.GetComponent<Camera>().enabled = false;
+                mainCamera2.GetComponent<Touchinput>().enabled = false;
+
                 // We'll wait for the first serializatin to pass, else we'll have a glitch where the car is positioned at the wrong position.
                 if (!this.photonView.IsMine)
                 {
@@ -168,6 +171,9 @@ namespace Photon.Pun.Demo.SlotRacer
 
                 mainCamera2.GetComponent<Camera>().enabled = true;
                 mainCamera2.GetComponent<Touchinput>().enabled = true;
+
+                mainCamera1.GetComponent<Camera>().enabled = false;
+                mainCamera1.GetComponent<Touchinput>().enabled = false;
 
             }
 
