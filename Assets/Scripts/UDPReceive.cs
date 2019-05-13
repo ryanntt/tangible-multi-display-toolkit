@@ -24,7 +24,7 @@ public class UDPReceive : MonoBehaviour
     Thread clientReceiveThread;
 
     // public
-    public string IP = "192.168.0.103";
+    public string IP = "192.168.0.107";
     public int receivePort; // define > init
     public int sendPort; // define > init
 
@@ -74,7 +74,7 @@ public class UDPReceive : MonoBehaviour
 
         try
         {
-            mySocket = new TcpClient("192.168.0.103", 5566);
+            mySocket = new TcpClient(IP, 5566);
             theStream = mySocket.GetStream();
             theWriter = new StreamWriter(theStream);
         }
