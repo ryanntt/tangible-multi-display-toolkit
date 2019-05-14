@@ -24,18 +24,6 @@ public class LEDControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject carclone = GameObject.FindGameObjectsWithTag("CarClone")[0].transform.GetChild(0).gameObject;
-
-
-        if (carclone.activeInHierarchy == false)
-        {
-            GameObject car = GameObject.FindGameObjectsWithTag("CarPlayer")[0];
-            this.transform.SetParent(car.transform);
-        }
-        else 
-        {
-            this.transform.SetParent(carclone.transform);
-        }
 
         LEDObjects = new List<Transform>();
         foreach (Transform child in transform)
