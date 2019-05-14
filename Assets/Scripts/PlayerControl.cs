@@ -154,7 +154,7 @@ namespace Photon.Pun.Demo.SlotRacer
                 //mainCamera.transform.parent = this.CarInstance.transform;
                 //mainCamera.GetComponent<Camera>().enabled = true;
 
-                leds.transform.SetParent(this.transform);
+                leds.transform.SetParent(car.transform);
 
                 mainCamera1.transform.parent = this.transform;
 
@@ -173,7 +173,7 @@ namespace Photon.Pun.Demo.SlotRacer
 
             if (playerOrder == 1 && this.photonView.IsMine)
             {
-                leds.transform.SetParent(this.transform);
+                leds.transform.SetParent(car.transform);
                 mainCamera2.transform.parent = this.transform;
 
                 mainCamera1.GetComponent<Camera>().enabled = false;
