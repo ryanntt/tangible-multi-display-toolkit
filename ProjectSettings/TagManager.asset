@@ -11,6 +11,8 @@ TagManager:
   - TopView
   - Contexts
   - UDPReceive
+  - CarClone
+  - LEDs
   layers:
   - Default
   - TransparentFX

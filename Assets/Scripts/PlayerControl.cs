@@ -126,6 +126,10 @@ namespace Photon.Pun.Demo.SlotRacer
             //this.SplineWalker.currentDistance = SlotLanes.Instance.GridPositions[gridStartIndex].currentDistance;
             //this.SplineWalker.ExecutePositioning();
 
+            GameObject car = GameObject.FindGameObjectsWithTag("CarPlayer")[0].transform.GetChild(0).gameObject;
+            GameObject carclone = GameObject.FindGameObjectsWithTag("CarClone")[0].transform.GetChild(0).gameObject;
+            GameObject leds = GameObject.FindGameObjectsWithTag("LEDs")[0];
+
             // create a new car
             //this.CarInstance = (GameObject) Instantiate(this.CarPrefabs[gridStartIndex], this.transform.position, this.transform.rotation);
 
@@ -150,6 +154,8 @@ namespace Photon.Pun.Demo.SlotRacer
                 //mainCamera.transform.parent = this.CarInstance.transform;
                 //mainCamera.GetComponent<Camera>().enabled = true;
 
+                leds.transform.SetParent(this.transform);
+
                 mainCamera1.transform.parent = this.transform;
 
                 mainCamera2.GetComponent<Camera>().enabled = false;
@@ -167,14 +173,14 @@ namespace Photon.Pun.Demo.SlotRacer
 
             if (playerOrder == 1 && this.photonView.IsMine)
             {
+                leds.transform.SetParent(this.transform);
                 mainCamera2.transform.parent = this.transform;
-
-                mainCamera2.GetComponent<Camera>().enabled = true;
-                mainCamera2.GetComponent<Touchinput>().enabled = true;
 
                 mainCamera1.GetComponent<Camera>().enabled = false;
                 mainCamera1.GetComponent<Touchinput>().enabled = false;
 
+                mainCamera2.GetComponent<Camera>().enabled = true;
+                mainCamera2.GetComponent<Touchinput>().enabled = true;
             }
 
             if (playerOrder == 2 && this.photonView.IsMine) {
@@ -189,6 +195,10 @@ namespace Photon.Pun.Demo.SlotRacer
                 //print(pedestrianCamera.name);
                 //pedestrianCamera.SetActive(true);
 
+                car.SetActive(false);
+                carclone.SetActive(true);
+                leds.transform.SetParent(carclone.transform);
+
                 //Put Pedestrian camera under the car instance - in this case is the pedestrian
                 pedestrianCamera.transform.parent = this.CarInstance.transform;
 
@@ -202,7 +212,13 @@ namespace Photon.Pun.Demo.SlotRacer
 
                 // Hide context indicator in 3rd iPad
                 contexts = GameObject.FindGameObjectWithTag("Contexts");
-                contexts.SetActive(false);
+                foreach (Transform child in contexts.transform)
+                {
+                    foreach (Transform subchild in child)
+                    {
+                        subchild.gameObject.SetActive(false);
+                    }
+                }
 
                 // We'll wait for the first serializatin to pass, else we'll have a glitch where the car is positioned at the wrong position.
                 if (!this.photonView.IsMine)
