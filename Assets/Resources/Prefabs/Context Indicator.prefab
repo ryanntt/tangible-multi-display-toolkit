@@ -116,13 +116,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6248267488516434852}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.04, y: 0.903, z: -3.06}
+  m_LocalRotation: {x: 0.50000006, y: -0.50000006, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0.03999996, y: 0.9, z: -2.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6248267489363691792}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 90}
 --- !u!23 &6248267488516434849
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -172,8 +172,8 @@ TextMesh:
   m_OffsetZ: 1
   m_CharacterSize: 0.03
   m_LineSpacing: 1
-  m_Anchor: 4
-  m_Alignment: 1
+  m_Anchor: 5
+  m_Alignment: 2
   m_TabSize: 4
   m_FontSize: 100
   m_FontStyle: 0
@@ -233,6 +233,8 @@ MonoBehaviour:
   activated: {fileID: 21300000, guid: f507f989be8ed4836a1ab0e26ba040d3, type: 3}
   statusRenderer: {fileID: 6248267489561514825}
   textMesh: {fileID: 6248267488516434854}
+  isActivated: 0
+  ID: 0
 --- !u!1 &6248267489561514831
 GameObject:
   m_ObjectHideFlags: 0
