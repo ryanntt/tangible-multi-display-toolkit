@@ -29,11 +29,17 @@ public class ContextManager : MonoBehaviour
         string jsonString = JsonHelper.FixJson(message);
         Context[] contexts = JsonHelper.FromJson<Context>(jsonString);
 
+        int activeContext = 0;
+
         ContextManager ctxManager = GameObject.FindWithTag("Contexts").GetComponent<ContextManager>();
         print(contexts[0].name);
         for (int i = 0; i < contexts.Length; i++)
         {
             string contextName = contexts[i].name;
+
+            if (contexts[i].activated) {
+                activeContext = i;
+            }
 
             string finalString = contextName;
             int ctxLength = contextName.Length;
@@ -60,6 +66,12 @@ public class ContextManager : MonoBehaviour
 
             UpdateContext(i + 1, finalString);
         }
+
+
+        /*if (tangibleOff) {
+         * ActivateContext(i);
+         * }
+         */        
     }
 
     public void ActivateContext(int id)
