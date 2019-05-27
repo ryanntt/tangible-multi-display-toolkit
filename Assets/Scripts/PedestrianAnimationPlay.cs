@@ -5,6 +5,11 @@ using UnityEngine;
 public class PedestrianAnimationPlay : MonoBehaviour
 {
     public GameObject[] ContextIndicators;
+    Vector3 originalPos;
+    private void Start()
+    {
+        originalPos = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
+    }
 
     // Update is called once per frame
     void Update()
@@ -22,10 +27,15 @@ public class PedestrianAnimationPlay : MonoBehaviour
                 if (ctxScript.ID == 1)
                 {
                     GetComponent<Animator>().Play("HumanoidWalk");
+                    if (this.transform.position.z >  22.5f)
+                    {
+                        transform.position = originalPos;
+                    }
                 }
                 else
                 {
-                    GetComponent<Animator>().Play("HumanoidIddle");
+                    GetComponent<Animator>().Play("HumanoidIdle");
+                    transform.position = new Vector3(2f, 2.004f, 24.92f);
                 }
             }
         }
