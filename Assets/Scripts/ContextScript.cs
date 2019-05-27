@@ -19,6 +19,8 @@ public class ContextScript : MonoBehaviour
 
     public int ID;
 
+    bool TangibleModeEnabled = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,17 +29,21 @@ public class ContextScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var dist = Vector3.Distance(statusRenderer.transform.position, target.transform.position);
-        //print("Distance to car is:"+ dist);
+        if (TangibleModeEnabled == true)
+        {
+            var dist = Vector3.Distance(statusRenderer.transform.position, target.transform.position);
+            //print("Distance to car is:"+ dist);
 
-        if ( dist <= 3.0) 
-        {
-            ActivateContext();
-            //UpdateText("Activated :)");
-        } else
-        {
-            DeactivateContext();
-            //UpdateText("Inactive");
+            if (dist <= 3.0)
+            {
+                ActivateContext();
+                //UpdateText("Activated :)");
+            }
+            else
+            {
+                DeactivateContext();
+                //UpdateText("Inactive");
+            }
         }
     }
 
@@ -65,5 +71,10 @@ public class ContextScript : MonoBehaviour
     public void UpdateText(string textdisplay)
     {
         textMesh.text = textdisplay;
+    }
+
+    public void TangibleMode_Changed(bool newValue)
+    {
+        TangibleModeEnabled = newValue;
     }
 }
