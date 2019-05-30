@@ -141,6 +141,8 @@ namespace Photon.Pun.Demo.SlotRacer
 
             if (playerOrder == 0 && this.photonView.IsMine)
             {
+                car.SetActive(true);
+                carclone.SetActive(false);
                 // instead of creating a new car, we just use the existing car
                 this.CarInstance = GameObject.FindGameObjectsWithTag("CarPlayer")[0];
                 //Debug.Log(this.CarInstance.name);
@@ -173,6 +175,8 @@ namespace Photon.Pun.Demo.SlotRacer
 
             if (playerOrder == 1 && this.photonView.IsMine)
             {
+                car.SetActive(true);
+                carclone.SetActive(false);
                 leds.transform.SetParent(car.transform);
                 mainCamera2.transform.parent = this.transform;
 

@@ -7,6 +7,9 @@ public class ContextManager : MonoBehaviour
 {
     public GameObject[] ContextIndicators;
     // Start is called before the first frame update
+
+    bool TangibleModeEnabled = true;
+
     void Start()
     {
 
@@ -29,11 +32,19 @@ public class ContextManager : MonoBehaviour
         string jsonString = JsonHelper.FixJson(message);
         Context[] contexts = JsonHelper.FromJson<Context>(jsonString);
 
+        int activeContext = 0;
+        print("Message is " + jsonString);
+
         ContextManager ctxManager = GameObject.FindWithTag("Contexts").GetComponent<ContextManager>();
-        print(contexts[0].name);
+
         for (int i = 0; i < contexts.Length; i++)
         {
             string contextName = contexts[i].name;
+
+            if (contexts[i].active) {
+                print(contexts[i].name);
+                activeContext = i+1;
+            }
 
             string finalString = contextName;
             int ctxLength = contextName.Length;
@@ -58,8 +69,15 @@ public class ContextManager : MonoBehaviour
                 }
             }
 
-            UpdateContext(i + 1, finalString);
+            UpdateContext(i+1, finalString);
         }
+
+
+        if (TangibleModeEnabled == false) {
+            print("Active context is " + activeContext);
+            ActivateContext(activeContext);
+        }
+                 
     }
 
     public void ActivateContext(int id)
@@ -70,25 +88,43 @@ public class ContextManager : MonoBehaviour
         Context ctx = new Context();
         for(int i=0; i<this.ContextIndicators.Length; i++)
         {
-            print(this.ContextIndicators[i].GetComponent<ContextScript>().ID);
+            //print(this.ContextIndicators[i].GetComponent<ContextScript>().ID);
             if(this.ContextIndicators[i].GetComponent<ContextScript>().ID == id)
             {
                 ContextScript ctxScript = this.ContextIndicators[i].GetComponent<ContextScript>();
                 ctx.name = ctxScript.textMesh.text;
                 ctx.id = id;
-                ctx.activated = ctxScript.isActivated;
-                print("context");
-                print(ctx.name);
-                print(ctx.id);
-                print(ctx.activated);
+
+                if (TangibleModeEnabled == false)
+                {
+                    ctxScript.isActivated = true;
+                }
+
+                ctx.active = ctxScript.isActivated;
+                //print("context");
+                //print(ctx.name);
+                //print(ctx.id);
+                //print(ctx.active);
 
                 string contextJson = JsonUtility.ToJson(ctx);
-                print(contextJson);
+                //print(contextJson);
 
                 UDPReceive udp = GameObject.FindWithTag("UDPReceive").GetComponent<UDPReceive>();
                 udp.writeSocket(contextJson);
             }
+            else
+            {
+                if (TangibleModeEnabled == false)
+                {
+                    this.ContextIndicators[i].GetComponent<ContextScript>().isActivated = false; // remove the activation in all other context
+                }
+            }
         }
+    }
+
+    public void TangibleMode_Changed(bool newValue)
+    {
+        TangibleModeEnabled = newValue;
     }
 }
 
@@ -97,5 +133,5 @@ internal class Context
 {
     public string name;
     public int id;
-    public bool activated;
+    public bool active;
 }

@@ -101,7 +101,7 @@ public class LEDControl : MonoBehaviour
             {
                 str += stringsSend[i];
             }
-            print(str);
+            //print(str);
             strings = stringsSend;
             lockThread = false;
         }
