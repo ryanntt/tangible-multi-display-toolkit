@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CityCar-Scene.unity
     guid: 7a7ac2691bd6d49ef92989a7b0e06b75
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Park-Scene.unity
     guid: a954f68ccd4e441e5841a3d90bca08e5
   m_configObjects: {}
