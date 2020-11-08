@@ -1,18 +1,36 @@
-#Urban Autonomous Car Unity Prototype - Documentation
+# Tangible Multi-Display Toolkit
+
+A design toolkit that can simulates the interaction between autonomous vehicles and pedestrian via tangible objects and multiple displays.
+
+## Getting started
+
+A more detailed guide can be read at [the official website](ryanntt.com/tangible-multi-display-toolkit/).
+
+## Installation
+
+### Requirement
+- Mac OS machine with Xcode 12 or newer
+- iPad with iOS 12 or newer
+
+### Source code
+
+This repository can work together with 
+
+```
+git clone https://github.com/ryanntt/tangible-multi-display-toolkit.git
+```
+
+```
+git clone https://github.com/HoggenMari/AVLightingToolkit.git
+```
+
+### Configure the toolkit
+
+- Go to configuratio
+
+### Build and deploy the application
 
 
-**LED Colours**
 
-To change colour of LED in Script, run public function ```ChangeColor()``` using following syntax:
-```ChangeColor(string[] string )```
-
-For example:
-
-```ChangeColor(new string[] { "#00FF00", "#FF0000", "#0000FF", "#00FF00", "#FF0000", "#0000FF" });```
-
-The function will change colours of all 21 LEDs. If the number of colours is less than 21, then random colours will be assigned. This function is declared in file ```Scripts/LEDControl.cs```.
-
-**Context**
-
-To change the text of any indicator, target ``Context Manager script`` in ``object Context Manager`` and run public function:
-`UpdateContext(int i, string text)` to update the text of context **i**th. **i** ranges from 1 to 4.
+## License
+MIT
