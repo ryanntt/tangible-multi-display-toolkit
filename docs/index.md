@@ -1,5 +1,7 @@
 # Tangible Multi-Display Toolkit
 
+*This documentation is in progress.*
+
 Purpose of project. And link to conference.
 
 There are 3 main components of project:
@@ -11,7 +13,8 @@ There are 3 main components of project:
 
 ### Views
 
-Steps to get the app on 3 iPads
+Steps to install the application on 3 iPads
+
 - Clone this repo
 
 ```markdown
@@ -22,7 +25,7 @@ git clone https://github.com/ryanntt/tangible-multi-display-toolkit.git
 
 As we all used standard packages for Unity, once you import the project, the initialization will download required assets from Unity Store. The assets not available on Unity Store are kept to small sizes in the repository.
 
-Watch out for Unity version. We tested this on version and it was working. We were using Xcode 12 in April 2019. You might need to spend more time fixing the toolkit on the newer version of Unity and Xcode. It is better that you select the Unity version that support the Xcode version.
+The project work well on version 2019.1.0f2. It should work with the newer versions of Unity and Xcode with some adjustment. 
 
 - Configure the IP address of controller.
 
@@ -39,12 +42,9 @@ Use your own IP number here
 
 
 
-- Deploy the project to iPad
-
-
 ### Controller
 
-- Clonse the repo:
+- Clone the repo:
 ```
 git clone https://github.com/HoggenMari/AVLightingToolkit.git
 ```
@@ -72,6 +72,23 @@ The function will change colours of all 21 LEDs. If the number of colours is les
 
 To change the text of any indicator, target ``Context Manager script`` in ``object Context Manager`` and run public function:
 `UpdateContext(int i, string text)` to update the text of context **i**th. **i** ranges from 1 to 4.
+
+
+## Deployment and Setup
+
+Deploy the project to iPad
+
+In `Project` panel, go to `Assets/Scenes`, you should see 2 unity files:
+- CityCar-Scene
+- Park-Scene
+
+They are examples that you can run with, and will be good reference for how to setup environment and interactive elements.
+
+Go to menu `Files/ Build Settings`
+- Choose the scene you want to build
+- Select Platform: default is PC, Mac. Please select iOS and install required package to build the application for iOS.
+
+Once you have Unity for iOS package downloaded and installed, you can build this application for iPad. 
 
 
 ## Troubleshooting
