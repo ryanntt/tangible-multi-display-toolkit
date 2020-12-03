@@ -4,7 +4,7 @@ A design toolkit that can simulates the interaction between autonomous vehicles 
 
 ## Getting started
 
-A more detailed guide can be read at [the official website](ryanntt.com/tangible-multi-display-toolkit/).
+A more detailed guide can be read at [the official website](https://ryanntt.com/tangible-multi-display-toolkit/).
 
 ## Installation
 
@@ -14,7 +14,7 @@ A more detailed guide can be read at [the official website](ryanntt.com/tangible
 
 ### Source code
 
-This repository can work together with 
+This repository work together with 
 
 ```
 git clone https://github.com/ryanntt/tangible-multi-display-toolkit.git
@@ -26,11 +26,12 @@ git clone https://github.com/HoggenMari/AVLightingToolkit.git
 
 ### Configure the toolkit
 
-- Go to configuratio
+You can configure the lighting colours, animation, environments and the context of interaction.
+Please read [Configuration](https://ryanntt.com/tangible-multi-display-toolkit#configuration).
 
-### Build and deploy the application
+### Deploy and run the application
 
-
+We recommend 3 iPads to run the setup. Please read [Deployment and Running](https://ryanntt.com/tangible-multi-display-toolkit#deployment-and-running).
 
 ## License
 MIT
