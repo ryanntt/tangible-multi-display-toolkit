@@ -2,7 +2,7 @@
 
 ![Toolkit overivew](toolkit.jpg)
 
-This design toolkit supports the study of interaction between autonomous vehicles and pedestrian via tangible objects and multiple displays. The project was first presented in [OZCHI 2020](http://www.ozchi.org/2020/program.html).
+This design toolkit supports the study of interaction between autonomous vehicles and pedestrian via tangible objects and multiple displays. The project was first presented in [OzCHI 2020](http://www.ozchi.org/2020/program.html).
 
 Please read this guide in conjunction with the paper *(link to be updated soon)* to understand how the toolkit can help your research.
 
@@ -45,7 +45,7 @@ In `Assets/Scripts/UDPReceive.cs` line 27:
     public string IP = "192.168.0.107";
 ```
 
-Please use your own IP number here. If you want to customize, please read on. Otherwise, skip to [Deployment and Setup](#deployment-and-setup)
+Please use your own IP number here. If you want to customize, please read on. Otherwise, skip to [Deployment and Setup](#deployment-and-running)
 ### Controller app
 
 - Clone the repo:
@@ -53,17 +53,17 @@ Please use your own IP number here. If you want to customize, please read on. Ot
 git clone https://github.com/HoggenMari/AVLightingToolkit.git
 ```
 
-There is no quick and easy way to customize the controller app. Please continue to [Deployment and Setup](#deployment-and-setup).
+There is no quick and easy way to customize the controller app. Please continue to [Deployment and Setup](#deployment-and-running).
 
 ### 3D printed car with touchpoints
 
 *To be updated soon.*
+
 ___
 ## Configuration
 
 ### LED Colours
-We use HEX value to display the color. This might be difficult for lighting designer to manipulate the colours. You will need a converter to get HEX from HSL or RGB. There are many web tools available online for this. We used [colourslurp](https://colourslurp.com/) on Mac.
-
+We use HEX value to display the color. This might be difficult for lighting designer to manipulate the colours. You will need a converter to get HEX from HSL or RGB. There are many web tools available online for this.
 
 To change colour of LED in Script, run public function ```ChangeColor()``` using following syntax:
 ```ChangeColor(string[] string )```
@@ -109,13 +109,15 @@ The sequence of which view application start will determine the view it display:
 - 1st app: Top-down view has starting point of the vehicle
 - 2nd app: Top-down view has pedestrian
 - 3rd app: First-person point of view
+
 ___
 ## Questions and Support
 
 We document [known issues in Github](https://github.com/ryanntt/tangible-multi-display-toolkit/issues). Please look for existing issues before creating a new one.
 
 If you have any questions, please feel free to [open an issue ticket in Github](https://github.com/ryanntt/tangible-multi-display-toolkit/issues/new).
+
 ___
 ## Contributing
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Having ideas to enhance toolkit or fix issues? Please [create a new pull request](https://github.com/ryanntt/tangible-multi-display-toolkit/compare) and we’ll help you review and merge.
